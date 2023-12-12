@@ -1,0 +1,45 @@
+{
+  "easycom": {
+    "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue",
+    "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
+  },
+  "pages": [
+    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationStyle": "custom" // 隐藏系统导航栏
+      }
+    },
+    {
+      "path": "pages/binding/binding",
+      "style": {
+        "navigationStyle": "custom" // 隐藏系统导航栏
+      }
+    },
+    {
+      "path": "pages/payInfo/payInfo",
+      "style": {
+        "navigationStyle": "custom" // 隐藏系统导航栏
+      }
+    },
+    {
+      "path": "pages/pay/pay",
+      "style": {
+        "navigationStyle": "custom" // 隐藏系统导航栏
+      }
+    },
+    {
+      "path": "pages/pay/components/payMode",
+      "style": {
+        "navigationStyle": "custom" // 隐藏系统导航栏
+      }
+    },
+    {
+      "path": "pages/pay/components/success",
+      "style": {
+        "navigationStyle": "custom" // 隐藏系统导航栏
+      }
+    }
+  ]
+}
