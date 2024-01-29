@@ -1,12 +1,20 @@
 <template>
   <view>
-    <Navigation></Navigation>
-    <view class="mt-20 buttons">
-      <view class="item mt-20" v-for="(item, index) in list" :key="index" @click="to(item)">
-        <button class="button" :style="{ backgroundColor: item.color }">{{ item.text }}</button>
-        <img class="icon" :src="item.url" />
-      </view>
-    </view>
+    <div class="background">
+      <div class="text">首页</div>
+      <img src="@/static/index/首页背景.png" />
+    </div>
+    <div class="page">
+      <div class="swiper">
+        <u-swiper height="100%" class="swiper" :list="swiperList"></u-swiper>
+      </div>
+      <div class="box">
+        <div class="item" v-for="(item, index) in list" :key="index" @click="to(item)">
+          <img :src="item.img" style="width: 68px; height: 68px" />
+          <div>{{ item.text }}</div>
+        </div>
+      </div>
+    </div>
   </view>
 </template>
 
@@ -16,37 +24,47 @@ export default {
   components: { Navigation },
   data() {
     return {
+      swiperList: [require('@/static/index/轮播图1.png'), require('@/static/index/轮播图2.png')],
       list: [
         {
           text: '立即绑定',
-          url: '/static/index/立即绑定.png',
-          color: '#4284ff',
+          img: '/static/index/立即绑定.png'
         },
         {
           text: '缴费通知',
-          url: '/static/index/缴费通知.png',
-          color: '#3db7fb',
+          img: '/static/index/缴费通知.png'
         },
         {
           text: '立即缴费',
-          url: '/static/index/立即缴费.png',
-          color: '#ff9095',
-        },
-      ],
+          img: '/static/index/立即缴费.png'
+        }
+      ]
     }
   },
+  created() {},
   methods: {
     to(data) {
       if (data.text === '立即绑定') {
         uni.navigateTo({ url: '/pages/binding/binding' })
       }
       if (data.text === '缴费通知') {
-        this.showModal()
-        // uni.navigateTo({ url: '/pages/payInfo/payInfo' })
+        const app = getApp()
+        const token = uni.getStorageSync('token')
+        if (!token) {
+          app.login()
+        }
+        // this.showModal()
+        uni.navigateTo({ url: '/pages/payInfo/payInfo' })
       }
       if (data.text === '立即缴费') {
-        this.showModal()
-        // uni.navigateTo({ url: '/pages/pay/pay' })
+        const app = getApp()
+
+        const token = uni.getStorageSync('token')
+        if (!token) {
+          app.login()
+        }
+        // this.showModal()
+        uni.navigateTo({ url: '/pages/pay/pay' })
       }
     },
     showModal() {
@@ -54,45 +72,60 @@ export default {
         title: '提示!',
         content: '请先绑定合同',
         showCancel: false,
-        confirmText: '确定',
+        confirmText: '确定'
       })
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.navigation {
+.background {
+  width: 100%;
+  height: 375px;
+  position: fixed;
+  top: 0;
+  z-index: -1;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  .text {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%);
+    top: 7%;
+  }
+}
+.page {
+  width: 100%;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: url('/static/index/navigation.png');
-  text-align: center;
-  width: 100%;
-  height: 88px;
-  color: #fff;
-}
-.buttons {
-  margin-left: 50%;
-  transform: translate(-50%);
-  width: 339px;
-  .item {
-    position: relative;
-    .button {
-      width: 339px;
-      height: 77px;
-      background-color: #4385ff;
-      border-radius: 20px;
-      text-align: center;
-      line-height: 77px;
-      color: #fff;
-    }
-    .icon {
-      position: absolute;
-      top: 50%;
-      transform: translate(30%, -50%);
-      width: 48px;
-      height: 48px;
+  padding-top: 100px;
+  .swiper {
+    width: 350px;
+    height: 192px;
+  }
+  .box {
+    width: 350px;
+    height: 115px;
+    background: linear-gradient(180deg, rgba(223, 241, 255, 1) 2%, rgba(255, 255, 255, 0.8) 100%);
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .item {
+      width: 30%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
     }
   }
 }

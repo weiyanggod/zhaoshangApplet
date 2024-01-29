@@ -11,13 +11,7 @@
         </u-form-item>
       </u-form>
       <view class="mt-40">
-        <u-button
-          color="linear-gradient(to right, rgb(124, 110, 178), rgb(115, 155, 206))"
-          type="primary"
-          shape="circle"
-          text="立即绑定"
-          @click="binding"
-        ></u-button>
+        <u-button color="#3d7dff" type="primary" shape="circle" text="立即绑定" @click="binding"></u-button>
       </view>
     </view>
   </view>
@@ -31,22 +25,22 @@ export default {
     return {
       form: {
         phone: '',
-        number: '',
+        number: ''
       },
       rules: {
         phone: {
           type: 'string',
           required: true,
           message: '请填写手机号',
-          trigger: ['blur', 'change'],
+          trigger: ['blur', 'change']
         },
         number: {
           type: 'string',
           required: true,
           message: '请填写合同编号',
-          trigger: ['blur', 'change'],
-        },
-      },
+          trigger: ['blur', 'change']
+        }
+      }
     }
   },
   computed: {},
@@ -60,9 +54,9 @@ export default {
         title: '提示!',
         content: text,
         showCancel: false,
-        confirmText: '确定',
+        confirmText: '确定'
       })
-    },
+    }
   },
   watch: {},
 
@@ -75,7 +69,7 @@ export default {
   // 页面周期函数--监听页面隐藏
   onHide() {},
   // 页面周期函数--监听页面卸载
-  onUnload() {},
+  onUnload() {}
   // 页面处理函数--监听用户下拉动作
   // onPullDownRefresh() { uni.stopPullDownRefresh(); },
   // 页面处理函数--监听用户上拉触底

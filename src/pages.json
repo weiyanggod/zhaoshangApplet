@@ -28,18 +28,25 @@
       "style": {
         "navigationStyle": "custom" // 隐藏系统导航栏
       }
-    },
+    }
+  ],
+  "subPackages": [
     {
-      "path": "pages/pay/components/payMode",
-      "style": {
-        "navigationStyle": "custom" // 隐藏系统导航栏
-      }
-    },
-    {
-      "path": "pages/pay/components/success",
-      "style": {
-        "navigationStyle": "custom" // 隐藏系统导航栏
-      }
+      "root": "pages/pay/components/",
+      "pages": [
+        {
+          "path": "payMode",
+          "style": {
+            "navigationBarTitleText": "payMode"
+          }
+        },
+        {
+          "path": "success",
+          "style": {
+            "navigationBarTitleText": "success"
+          }
+        }
+      ]
     }
   ]
 }

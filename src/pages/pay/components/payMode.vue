@@ -21,9 +21,7 @@
         </u-cell-group>
       </view>
     </view>
-    <view class="bottom">
-      <u-button color="#618add" shape="circle" text="立即支付" @click="toPay('info')"></u-button>
-    </view>
+    <u-button color="#618add" shape="circle" text="立即支付" @click="toPay('info')"></u-button>
   </view>
 </template>
 
@@ -34,7 +32,7 @@ export default {
   data() {
     return {
       payMode: '微信支付',
-      msgType: 'info',
+      msgType: 'info'
     }
   },
   computed: {},
@@ -44,11 +42,11 @@ export default {
         title: '提示!',
         content: '请先缴纳逾期款',
         showCancel: false,
-        confirmText: '确定',
+        confirmText: '确定'
       })
       // uni.navigateTo({ url: '/pages/pay/components/success' })
     },
-    dialogConfirm() {},
+    dialogConfirm() {}
   },
   watch: {},
 
@@ -61,7 +59,7 @@ export default {
   // 页面周期函数--监听页面隐藏
   onHide() {},
   // 页面周期函数--监听页面卸载
-  onUnload() {},
+  onUnload() {}
   // 页面处理函数--监听用户下拉动作
   // onPullDownRefresh() { uni.stopPullDownRefresh(); },
   // 页面处理函数--监听用户上拉触底

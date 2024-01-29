@@ -1,7 +1,11 @@
 <template>
   <view class="navigation">
-    {{ title }}
-    <view class="back">{{}}</view>
+    <view class="arrow" v-if="arrow" @click="back">
+      <u-icon name="arrow-left" size="20" color="#fff"></u-icon>
+    </view>
+    <view class="title">
+      {{ title }}
+    </view>
   </view>
 </template>
 
@@ -10,9 +14,18 @@ export default {
   props: {
     title: {
       type: String,
-      default: '首页',
+      default: '首页'
     },
+    arrow: {
+      type: Boolean,
+      default: true
+    }
   },
+  methods: {
+    back() {
+      uni.navigateBack({ delta: 1 })
+    }
+  }
 }
 </script>
 
@@ -22,16 +35,28 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('/static/index/navigation.png');
+  background: url('/static/背景.png');
   text-align: center;
   width: 100%;
   height: 88px;
   color: #fff;
-  .back {
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 50%;
     position: absolute;
-    top: 50%;
-    transform: translate(0%, -50%);
-    left: 10%;
+    top: 70%;
+    left: 0%;
+  }
+  .title {
+    position: absolute;
+    bottom: 10%;
+  }
+  .arrow {
+    position: absolute;
+    top: 67%;
+    left: 5%;
   }
 }
 </style>

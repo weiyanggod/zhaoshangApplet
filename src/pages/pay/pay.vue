@@ -2,50 +2,40 @@
   <view>
     <Navigation title="立即缴费"></Navigation>
     <view class="search">
-      <u-search :showAction="false" placeholder="输入关键词" v-model="value"></u-search>
+      <u-search
+        placeholder="输入关键词"
+        v-model="value"
+        :actionStyle="{ color: '#3b7bff', 'font-weight': 600, 'font-size': '14px' }"
+      ></u-search>
     </view>
-    <view class="box">
-      <view>
-        <view class="title">选择合同编号</view>
-        <view class="list">
-          <view class="item">
-            <u-radio-group v-model="form.number" placement="column">
-              <u-radio shape="square" :customStyle="{ marginBottom: '20px' }" label="HT0001" name="HT0001"> </u-radio>
-              <u-radio shape="square" :customStyle="{ marginBottom: '20px' }" label="HT0002" name="HT0002"> </u-radio>
-              <u-radio shape="square" :customStyle="{ marginBottom: '20px' }" label="HT0003" name="HT0003"> </u-radio>
-            </u-radio-group>
+    <view class="text">搜索结果</view>
+    <view class="ml-15">
+      <u-checkbox-group v-model="checkboxValue" placement="column">
+        <view class="box" v-for="(item, index) in list" :key="index">
+          <u-checkbox name="HT000000001"> </u-checkbox>
+          <view class="right-text">
+            <view style="font-size: 14px; color: #000">物业服务费</view>
+            <view>合同编号：HT000000001</view>
+            <view>缴费周期：2023/1/1-2023/12/12</view>
+            <view style="display: flex; align-items: center">
+              <view>缴费金额：<text :style="{ color: item.isOverdue ? '#f26161' : '' }"> 1895.50元</text></view>
+              <view class="ml-5">
+                <u-tag v-if="!item.isOverdue" text="正常" type="success" size="mini" plain plainFill></u-tag>
+                <u-tag v-else text="逾期" type="error" size="mini" plain plainFill></u-tag>
+              </view>
+            </view>
           </view>
         </view>
-        <view class="title">选择缴费周期</view>
-        <view class="list">
-          <view class="item">
-            <u-radio-group v-model="form.number" placement="column">
-              <u-radio shape="square" :customStyle="{ marginBottom: '20px' }" label="一个月" name="一个月"> </u-radio>
-              <u-radio shape="square" :customStyle="{ marginBottom: '20px' }" label="三个月" name="三个月"> </u-radio>
-              <u-radio shape="square" :customStyle="{ marginBottom: '20px' }" label="三个月以上" name="三个月以上">
-              </u-radio>
-            </u-radio-group>
-          </view>
-        </view>
-        <view class="title">选择逾期标识</view>
-        <view class="list">
-          <view class="item">
-            <u-radio-group v-model="form.number" placement="column">
-              <u-radio shape="square" :customStyle="{ marginBottom: '20px' }" label="正常" name="正常"> </u-radio>
-              <u-radio shape="square" :customStyle="{ marginBottom: '20px' }" label="逾期" name="逾期"> </u-radio>
-            </u-radio-group>
-          </view>
-        </view>
-      </view>
+      </u-checkbox-group>
     </view>
     <view class="bottom">
-      <view class="flex-ac-sb" style="width: 40%">
-        <view>合计:</view>
-        <view style="color: #4137bc"> ￥196.00 </view>
+      <view class="flex-ac-sb" style="width: 35%">
+        <view>合计：</view>
+        <view style="color: #3b7bff"> ￥196.00 </view>
       </view>
       <view style="width: 100px">
         <u-button
-          color="#5d44a4"
+          color="#587edd"
           type="primary"
           size="small"
           shape="circle"
@@ -65,15 +55,27 @@ export default {
     return {
       value: '',
       form: {
-        number: '',
+        number: ''
       },
+      list: [
+        {
+          isOverdue: false
+        },
+        {
+          isOverdue: true
+        },
+        {
+          isOverdue: true
+        }
+      ],
+      checkboxValue: ''
     }
   },
   computed: {},
   methods: {
     toPayMode() {
       uni.navigateTo({ url: '/pages/pay/components/payMode' })
-    },
+    }
   },
   watch: {},
 
@@ -86,7 +88,7 @@ export default {
   // 页面周期函数--监听页面隐藏
   onHide() {},
   // 页面周期函数--监听页面卸载
-  onUnload() {},
+  onUnload() {}
   // 页面处理函数--监听用户下拉动作
   // onPullDownRefresh() { uni.stopPullDownRefresh(); },
   // 页面处理函数--监听用户上拉触底
@@ -103,20 +105,34 @@ export default {
   margin-top: 20px;
   padding: 0 20px;
 }
-
+.text {
+  margin-left: 20px;
+  font-weight: 900;
+  margin: 20px 0px 20px 20px;
+  color: #333333;
+  font-size: 14px;
+}
 .box {
-  width: 80%;
+  box-sizing: border-box;
   margin-left: 50%;
+  margin-top: 10px;
   transform: translate(-50%);
-  box-shadow: 0px 23px 35px -20px rgba(94, 93, 93, 0.4);
-  border-top: 0px;
-  padding-left: 20px;
-  padding-top: 10px;
-  .title {
+  padding: 10px;
+  width: 360px;
+  height: 106px;
+  box-shadow: 13px 20px 20px -23px rgba(94, 93, 93, 0.4);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+
+  .right-text {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+    height: 100%;
+    justify-content: space-around;
     color: #999999;
-  }
-  .item {
-    margin: 20px 0px 10px 5px;
   }
 }
 .bottom {

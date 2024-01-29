@@ -30,7 +30,7 @@ export default {
   // 页面周期函数--监听页面隐藏
   onHide() {},
   // 页面周期函数--监听页面卸载
-  onUnload() {},
+  onUnload() {}
   // 页面处理函数--监听用户下拉动作
   // onPullDownRefresh() { uni.stopPullDownRefresh(); },
   // 页面处理函数--监听用户上拉触底
