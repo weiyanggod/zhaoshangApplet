@@ -1,5 +1,5 @@
 const url_all = {
-  DEV: 'http://localhost:3000', // 开发
+  DEV: 'http://localhost:3000' // 开发
 }
 let BASEURL = url_all['DEV']
 
@@ -19,6 +19,6 @@ function handleRequest(options, resolve, reject) {
     fail: fail => {
       console.log('fail', fail)
       return reject(fail)
-    },
+    }
   })
 }

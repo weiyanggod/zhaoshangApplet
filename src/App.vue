@@ -1,4 +1,5 @@
 <script>
+import { loginApi } from '@/api'
 export default {
   // 全局变量
   globalData: {

@@ -1,4 +1,4 @@
-# gwj-uniapp
+# shouzu-applet
 
 ## Project setup
 

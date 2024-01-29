@@ -1,8 +1,7 @@
 import { request } from '@/utils/request.js'
-export const users = params => {
+export const loginApi = code => {
   return request({
-    url: '/users',
-    method: 'GET',
-    params
+    url: `/api/openid?code=${code}`,
+    method: 'GET'
   })
 }
