@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <u-navbar safeAreaInsetTop placeholder bgColor="#ebf1f3" title="上海百事通" :autoBack="true"> </u-navbar>
+    <u-navbar safeAreaInsetTop placeholder bgColor="#ebf1f3" :title="basicCellList[0].value" :autoBack="true">
+    </u-navbar>
     <!-- 基本信息 -->
     <view class="title">
       <view style="color: #157199; font-weight: 600">基本信息</view>
@@ -21,7 +22,15 @@
             {{ item.value }}
           </view>
           <view v-else>
-            <u-tag plainFill plain :text="item.value" size="mini"></u-tag>
+            <u-tag
+              v-if="item.value === '初始' || item.value === '在办'"
+              plainFill
+              plain
+              :text="item.value"
+              size="mini"
+            ></u-tag>
+            <u-tag v-if="item.value === '缓办'" type="warning" plainFill plain :text="item.value" size="mini"></u-tag>
+            <u-tag v-if="item.value === '办结'" type="success" plainFill plain :text="item.value" size="mini"></u-tag>
           </view>
         </view>
       </u-cell>
@@ -40,7 +49,7 @@
         </uni-tr>
         <uni-tr v-for="(item, index) in subjectTableData" :key="index">
           <uni-td align="center">{{ index + 1 }}</uni-td>
-          <uni-td>{{ item.address }}</uni-td>
+          <uni-td>{{ item.field0117 || '' }}</uni-td>
         </uni-tr>
       </uni-table>
     </view>
@@ -72,10 +81,10 @@
           <uni-th width="100" align="left">房屋需求(m²)</uni-th>
         </uni-tr>
         <uni-tr v-for="(item, index) in factorDemandTableData" :key="index">
-          <uni-td align="center">{{ index }}</uni-td>
-          <uni-td>{{ item.address }}</uni-td>
-          <uni-td>{{ item.name }}</uni-td>
-          <uni-td>{{ item.date }}</uni-td>
+          <uni-td align="center">{{ index + 1 }}</uni-td>
+          <uni-td>{{ item.field0135 || '' }}</uni-td>
+          <uni-td>{{ item.field0118 || '' }}</uni-td>
+          <uni-td>{{ item.field0120 || '' }}</uni-td>
         </uni-tr>
       </uni-table>
     </view>
@@ -110,17 +119,17 @@
     <view style="padding: 0px 10px" class="flex-center">
       <uni-table ref="table" border stripe emptyText="暂无更多数据">
         <uni-tr style="background-color: #157199">
-          <uni-th width="100" align="center">序号</uni-th>
+          <uni-th width="30" align="center">序号</uni-th>
           <uni-th align="center">文件描述</uni-th>
           <uni-th width="300" align="center">附件</uni-th>
         </uni-tr>
         <uni-tr v-for="(item, index) in materialTableData" :key="index">
           <uni-td align="center">{{ index + 1 }}</uni-td>
-          <uni-td>{{ item.date }}</uni-td>
+          <uni-td>{{ item.field0103 || '' }}</uni-td>
           <uni-td>
-            <view class="attachmentBox" @click="preview">
+            <view class="attachmentBox" @click="preview(item)">
               <view class="icon t-icon-PDF ml-5"></view>
-              <view class="ml-5" style="color: #1684fc">百事通法务公司及业务简介-2023-8.pdf</view>
+              <view class="ml-5" style="color: #1684fc">{{ item.fileName || '' }}</view>
             </view>
           </uni-td>
         </uni-tr>
@@ -130,140 +139,156 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
+import { getProjectDetailApi, getProjectDetailUrlApi } from '@/api/index.js'
 export default {
   components: {},
   data() {
     return {
+      id: '',
+      data: null,
       // 基本信息单元格数据
       basicCellList: [
         {
           title: '项目全称：',
-          value: '上海百事通法务信息技术有限公司'
+          value: 'field0002'
         },
         {
           title: '项目状态：',
-          value: '初始'
+          value: 'field0131'
         },
         {
           title: '信息来源：',
-          value: '区府办'
+          value: 'field0049'
         },
         {
           title: '项目所在地：',
-          value: '上海'
+          value: 'field0150'
         }
       ],
       // 投资内容单元格数据
       InvestmentContentCellList: [
         {
           title: '投资内容：',
-          value: ''
+          value: 'field0101'
         },
         {
           title: '所属产业：',
-          value: ''
+          value: 'field0151'
         },
         {
           title: '投资层级：',
-          value: ''
+          value: 'field0152'
         },
         {
           title: '投资总额：',
-          value: ''
+          value: 'field0072'
         },
         {
           title: '资金来源：',
-          value: ''
+          value: 'field0132'
         },
         {
           title: '固投总额：',
-          value: ''
+          value: 'field0073'
         },
         {
           title: '年产值预计：',
-          value: ''
+          value: 'field0074'
         },
         {
           title: '年税收预计：',
-          value: ''
+          value: 'field0075'
         },
         {
           title: '其他：',
-          value: ''
+          value: 'field0112'
         }
       ],
-
       // 投资主体表格数据
-      subjectTableData: [
-        {
-          address: '上海百事通法务信息技术有限公司'
-        }
-      ],
+      subjectTableData: [],
       // 要素需求表格数据
-      factorDemandTableData: [
-        {
-          date: '',
-          name: '',
-          address: '上海百事通法务信息技术有限公司'
-        }
-      ],
+      factorDemandTableData: [],
       // 项目跟踪
       trackCellList: [
         {
           title: '日期：',
-          value: '测试'
+          value: 'field0033'
         },
         {
           title: '阶段：',
-          value: '测试'
+          value: 'field0133'
         },
         {
           title: '项目所在主体：',
-          value: '测试'
+          value: 'field0134'
         },
         {
           title: '意向结果：',
-          value: '测试'
+          value: 'field0121'
         },
         {
           title: '当前主要问题描述：',
-          value: '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试'
+          value: 'field0161'
         },
         {
           title: '日志内容：',
-          value: '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试'
+          value: 'field0162'
         }
       ],
       // 项目资料
-      materialTableData: [
-        {
-          date: '公司介绍'
-        },
-        {
-          date: '联系人+地址'
-        }
-      ]
+      materialTableData: []
     }
+  },
+  onLoad: function (option) {
+    this.id = option.id
+    getProjectDetailApi({ id: option.id }).then(res => {
+      const data = res.data[0]
+      const arr = ['basicCellList', 'InvestmentContentCellList', 'trackCellList']
+      arr.forEach(i => {
+        this[i].forEach(item => {
+          if (item.value === 'field0033') {
+            item.value = dayjs(data[item.value]).format('YYYY-MM-DD')
+          } else {
+            item.value = data[item.value]
+          }
+          if (item.value === null) {
+            item.value = ''
+          }
+        })
+      })
+      this.factorDemandTableData = data.landDemand
+      this.subjectTableData = data.investment
+      this.materialTableData = data.projectFiles
+    })
   },
   computed: {},
   methods: {
-    preview() {
-      uni.downloadFile({
-        url: 'https://501351981.github.io/vue-office/examples/dist/static/test-files/test.docx',
-        success: res => {
-          if (res.statusCode === 200) {
-            console.log('下载成功')
-            console.log(res)
-          }
-        }
+    // 打开文档
+    preview({ field0104, fileName }) {
+      uni.showLoading({
+        title: '打开中'
       })
-      // uni.openDocument
-      // uni.navigateTo({
-      //   url: '/pages/web/web?src=https://501351981.github.io/vue-office/examples/dist/static/test-files/test.docx'
-      // })
+      getProjectDetailUrlApi({ field0104 }).then(res => {
+        const fs = uni.getFileSystemManager() //全局唯一的文件管理器
+        fs.writeFile({
+          filePath: wx.env.USER_DATA_PATH + '/' + fileName, //这里填文件的名字
+          data: res,
+          encoding: 'binary',
+          success(res) {
+            uni.openDocument({
+              showMenu: true,
+              filePath: wx.env.USER_DATA_PATH + '/' + fileName,
+              success: function (res) {
+                uni.hideLoading()
+              }
+            })
+          }
+        })
+      })
     },
     toTrackRecord() {
-      uni.navigateTo({ url: '/pages/index/trackRecord/trackRecord' })
+      uni.navigateTo({ url: `/pages/index/trackRecord/trackRecord?id=${this.id}` })
     }
   },
   watch: {}

@@ -24,16 +24,31 @@ export default {
         })
       })
     },
-    getOpenId(phone, code) {
+    getOpenId(phone, code, jsCode, openid) {
+      let data = {}
+      if (!phone) {
+        data = {
+          js_code: jsCode,
+          code: code ? code : null,
+          openid: openid ? openid : ''
+        }
+      } else {
+        data = {
+          js_code: jsCode,
+          code: code ? code : null,
+          phone: phone,
+          openid: openid ? openid : ''
+        }
+      }
       return new Promise(async (resolve, reject) => {
-        const res = await loginApi()
+        const res = await loginApi(data)
         resolve(res)
       })
     },
-    async login(phone) {
-      const code = await this.getCode()
-      console.log(code)
-      // this.getOpenId(phone, code)
+    async login({ code, phone, openid }) {
+      const jsCode = await this.getCode()
+      const res = await this.getOpenId(phone, code, jsCode, openid)
+      return res
     }
   }
 }

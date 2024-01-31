@@ -1,5 +1,5 @@
 const url_all = {
-  DEV: 'http://localhost:3000' // 开发
+  DEV: 'https://zsxmgj.jxufida.com:8826/zs' // 开发
 }
 let BASEURL = url_all['DEV']
 
@@ -13,6 +13,7 @@ function handleRequest(options, resolve, reject) {
     url: BASEURL + options.url,
     method: options.method,
     data: options.data,
+    responseType: options.responseType,
     success: response => {
       return resolve(response.data)
     },

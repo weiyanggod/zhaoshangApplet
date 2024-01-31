@@ -34,20 +34,34 @@ export default {
     }
   },
   methods: {
-    getphonenumber(res) {
+    async getphonenumber(data) {
       const app = getApp()
       if (!this.agree) {
         this.$refs.uToast.show({
           type: 'warning',
-          icon: '',
-          message: '请先阅读并同意xxxxxx协议',
-          position: 'bottom'
+          message: '请先阅读并同意xxxxxx协议'
         })
+        return
       } else {
-        app.login()
-        uni.navigateTo({
-          url: '/pages/index/index'
-        })
+        if (data.detail.code) {
+          const res = await app.login({ code: data.detail.code })
+          console.log(res)
+          if (res.code !== 200) {
+            this.$refs.uToast.show({
+              type: 'warning',
+              message: '当前手机号暂无登录权限'
+            })
+          } else {
+            uni.setStorageSync('token', res.data)
+            this.$refs.uToast.show({
+              type: 'success',
+              message: '登录成功'
+            })
+            uni.navigateTo({
+              url: '/pages/index/index'
+            })
+          }
+        }
       }
     },
     // 其他手机号登录

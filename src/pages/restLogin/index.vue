@@ -23,13 +23,24 @@ export default {
     }
   },
   methods: {
-    clickLogin() {
-      if (!this.agree) {
+    async clickLogin() {
+      const app = getApp()
+      const res = await app.login({ phone: this.phone })
+      console.log(res)
+      if (res.code !== 200) {
         this.$refs.uToast.show({
           type: 'warning',
           icon: '',
-          message: '请先阅读并同意xxxxxx协议',
-          position: 'bottom'
+          message: res.data
+        })
+      } else {
+        uni.setStorageSync('token', res.data)
+        this.$refs.uToast.show({
+          type: 'success',
+          message: '登录成功'
+        })
+        uni.navigateTo({
+          url: '/pages/index/index'
         })
       }
     },
