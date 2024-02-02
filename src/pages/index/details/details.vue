@@ -1,13 +1,12 @@
 <template>
   <div class="page">
-    <u-navbar safeAreaInsetTop placeholder bgColor="#ebf1f3" :title="basicCellList[0].value" :autoBack="true">
-    </u-navbar>
+    <u-navbar safeAreaInsetTop placeholder bgColor="#ebf1f3" :title="title" :autoBack="true"> </u-navbar>
     <!-- 基本信息 -->
     <view class="title">
       <view style="color: #157199; font-weight: 600">基本信息</view>
       <view class="flex" style="color: #1684fc; height: 20px; justify-content: flex-end; align-items: flex-end">
-        <u-icon name="download" color="#1684FC" size="20"></u-icon>
-        <view style="font-size: 16px">下载</view>
+        <!-- <u-icon name="download" color="#1684FC" size="20"></u-icon> -->
+        <!-- <view style="font-size: 16px">下载</view> -->
       </view>
     </view>
     <u-cell-group :border="false">
@@ -147,6 +146,7 @@ export default {
     return {
       id: '',
       data: null,
+      title: '',
       // 基本信息单元格数据
       basicCellList: [
         {
@@ -244,6 +244,7 @@ export default {
     this.id = option.id
     getProjectDetailApi({ id: option.id }).then(res => {
       const data = res.data[0]
+      this.title = data.field0054
       const arr = ['basicCellList', 'InvestmentContentCellList', 'trackCellList']
       arr.forEach(i => {
         this[i].forEach(item => {
@@ -262,7 +263,6 @@ export default {
       this.materialTableData = data.projectFiles
     })
   },
-  computed: {},
   methods: {
     // 打开文档
     preview({ field0104, fileName }) {

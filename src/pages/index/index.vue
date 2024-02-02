@@ -58,7 +58,6 @@ export default {
     const app = getApp()
     // 判断是否有token
     const openid = uni.getStorageSync('token')
-    console.log(openid)
     if (!openid) {
       uni.navigateTo({ url: '/pages/login/login' })
     } else {

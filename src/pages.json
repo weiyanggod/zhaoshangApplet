@@ -17,7 +17,6 @@
         "navigationStyle": "custom"
       }
     },
-
     {
       "path": "pages/restLogin/index",
       "style": {
@@ -61,6 +60,17 @@
           "path": "trackRecord",
           "style": {
             "navigationStyle": "custom"
+          }
+        }
+      ]
+    },
+    {
+      "root": "components",
+      "pages": [
+        {
+          "path": "agreement",
+          "style": {
+            "navigationBarTitleText": "详情"
           }
         }
       ]

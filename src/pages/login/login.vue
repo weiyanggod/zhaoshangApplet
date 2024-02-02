@@ -10,19 +10,22 @@
       <u-button
         type="primary"
         @getphonenumber="getphonenumber"
-        openType="getPhoneNumber"
-        text="微信手机号一键登录"
+        :open-type="agree[0] === true ? 'getPhoneNumber' : ''"
+        text="手机号快捷登录"
         color="#356382"
         shape="circle"
+        @click="click"
       ></u-button>
       <view class="agreement">
         <u-checkbox-group v-model="agree" placement="column">
           <u-checkbox inactiveColor="#303940" iconColor="#303940" :name="true"> </u-checkbox>
         </u-checkbox-group>
-        <view style="display: flex"> 我已阅读并同意 <a href="">xxxxxx</a> 协议 </view>
+        <view style="display: flex">
+          我已阅读并同意 <text style="color: #1684fc" @click="toAgreement">《用户服务协议》及《隐私政策》协议</text>
+        </view>
       </view>
     </view>
-    <view class="restLogin" @click="restLoginBtn"> 其他手机号登录 </view>
+    <!-- <view class="restLogin" @click="restLoginBtn"> 其他手机号登录 </view> -->
   </view>
 </template>
 
@@ -30,37 +33,38 @@
 export default {
   data() {
     return {
-      agree: false
+      openType: '',
+      agree: []
     }
   },
   methods: {
-    async getphonenumber(data) {
-      const app = getApp()
-      if (!this.agree) {
+    click() {
+      console.log(this.agree[0])
+      if (!this.agree[0]) {
         this.$refs.uToast.show({
           type: 'warning',
-          message: '请先阅读并同意xxxxxx协议'
+          message: '请先阅读并同意《用户服务协议》及《隐私政策》协议'
         })
-        return
-      } else {
-        if (data.detail.code) {
-          const res = await app.login({ code: data.detail.code })
-          console.log(res)
-          if (res.code !== 200) {
-            this.$refs.uToast.show({
-              type: 'warning',
-              message: '当前手机号暂无登录权限'
-            })
-          } else {
-            uni.setStorageSync('token', res.data)
-            this.$refs.uToast.show({
-              type: 'success',
-              message: '登录成功'
-            })
-            uni.navigateTo({
-              url: '/pages/index/index'
-            })
-          }
+      }
+    },
+    async getphonenumber(data) {
+      const app = getApp()
+      if (data.detail.code) {
+        const res = await app.login({ code: data.detail.code })
+        if (res.code !== 200) {
+          this.$refs.uToast.show({
+            type: 'warning',
+            message: '当前手机号暂无登录权限'
+          })
+        } else {
+          uni.setStorageSync('token', res.data)
+          this.$refs.uToast.show({
+            type: 'success',
+            message: '登录成功'
+          })
+          uni.navigateTo({
+            url: '/pages/index/index'
+          })
         }
       }
     },
@@ -69,6 +73,10 @@ export default {
       uni.navigateTo({
         url: '/pages/restLogin/index'
       })
+    },
+    // 协议
+    toAgreement() {
+      uni.navigateTo({ url: '/components/agreement' })
     }
   }
 }
@@ -101,10 +109,10 @@ export default {
   }
   .agreement {
     margin-top: 10px;
-    margin-left: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 12px;
   }
   .restLogin {
     position: absolute;
