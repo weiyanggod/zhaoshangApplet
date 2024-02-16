@@ -11,26 +11,22 @@
       <view v-if="isShow" class="unbind" @click="unbundle">解除绑定</view>
     </view>
     <view class="search">
-      <u-search
-        @search="search"
-        @blur="search"
-        :showAction="false"
-        placeholder="输入项目搜索的项目"
-        v-model="searchValue"
-      ></u-search>
+      <u-search @search="search" @blur="search" :showAction="false" placeholder="输入项目搜索的项目" v-model="searchValue"></u-search>
     </view>
     <view class="card" v-for="(item, index) in projectList" :key="index">
-      <img src="@/static/项目卡片背景.png" class="bg-img" />
       <view class="title">
-        <view style="color: #3a596d">{{ item.field0002 }}</view>
-        <view class="details" @click="details(item)"
-          >详情 <u-icon name="arrow-right" color="#265fb4" size="16"></u-icon>
-        </view>
+        <view>{{ item.field0002 }}</view>
+        <view class="details" @click="details(item)">详情 <u-icon name="arrow-right-double" color="#fff" size="16"></u-icon> </view>
       </view>
       <view class="content">
-        <view>项目所在地：{{ item.field0150 }}</view>
-        <view>投资总额：{{ item.field0072 ? item.field0072 + '万元' : '' }}</view>
-        <view>当前主要问题：{{ item.field0164 ? item.field0164 : '' }}</view>
+        <view class="left">
+          <view>项目所在地：{{ item.field0150 }}</view>
+          <view>投资总额：{{ item.field0072 ? item.field0072 + '万元' : '' }}</view>
+          <view>当前主要问题：{{ item.field0164 ? item.field0164 : '' }}</view>
+        </view>
+        <view class="right">
+          <img src="@/static/index/卡片右侧背景.png" />
+        </view>
       </view>
     </view>
   </div>
@@ -75,7 +71,7 @@ export default {
   methods: {
     // 解绑
     unbundle() {
-      unbundleApi({ openid: this.openid }).then(res => {
+      unbundleApi({ openid: this.openid }).then((res) => {
         if (res.code === 200) {
           this.$refs.uToast.show({
             type: 'success',
@@ -92,41 +88,22 @@ export default {
     },
     // 查询
     search() {
-      getProjectList({ name: this.searchValue }).then(res => {
+      getProjectList({ name: this.searchValue }).then((res) => {
         this.projectList = res.data
       })
     },
     // 消息列表
     getMsgList() {
-      getMsgListApi().then(res => {
+      getMsgListApi().then((res) => {
         if (res.data.length) {
-          res.data.forEach(item => {
+          res.data.forEach((item) => {
             this.msgList += item.field0160
           })
         }
       })
     }
   },
-  watch: {},
-
-  // 页面周期函数--监听页面加载
-  onLoad() {},
-  // 页面周期函数--监听页面初次渲染完成
-  onReady() {},
-  // 页面周期函数--监听页面显示(not-nvue)
-  onShow() {},
-  // 页面周期函数--监听页面隐藏
-  onHide() {},
-  // 页面周期函数--监听页面卸载
-  onUnload() {}
-  // 页面处理函数--监听用户下拉动作
-  // onPullDownRefresh() { uni.stopPullDownRefresh(); },
-  // 页面处理函数--监听用户上拉触底
-  // onReachBottom() {},
-  // 页面处理函数--监听页面滚动(not-nvue)
-  // onPageScroll(event) {},
-  // 页面处理函数--用户点击右上角分享
-  // onShareAppMessage(options) {},
+  watch: {}
 }
 </script>
 
@@ -181,39 +158,47 @@ export default {
     margin-top: 20px;
   }
   .card {
-    position: relative;
-    margin-top: 20px;
-    margin-left: 5%;
-    padding: 5%;
-    width: 80%;
-    border-radius: 15px;
-    background-color: #fff;
-    box-shadow: 0px 2px 6px 0px rgba(187, 187, 187, 0.64);
+    padding: 20px;
+    background: url('@/static/index/卡片背景.png') no-repeat;
+    background-size: 100% 100%;
     .details {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #265fb4;
       white-space: nowrap;
     }
-    .bg-img {
-      width: 115px;
-      height: 103px;
-      position: absolute;
-      right: 0px;
-      bottom: 0px;
-      z-index: 0;
-    }
+
     .title {
       display: flex;
       justify-content: space-between;
       font-weight: 600;
+      color: #fff;
     }
     .content {
       position: relative;
-      z-index: 10;
-      view {
-        margin-top: 10px;
+      display: flex;
+      background: url('@/static/index/内容背景.png') no-repeat;
+      background-size: 100% 100%;
+      justify-content: space-around;
+      padding: 5px;
+      margin-top: 10px;
+      .left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 14px;
+        view {
+          margin: 5px;
+        }
+      }
+      .right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 100px;
+          height: 100px;
+        }
       }
     }
   }
