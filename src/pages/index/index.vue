@@ -11,12 +11,20 @@
       <view v-if="isShow" class="unbind" @click="unbundle">解除绑定</view>
     </view>
     <view class="search">
-      <u-search @search="search" @blur="search" :showAction="false" placeholder="输入项目搜索的项目" v-model="searchValue"></u-search>
+      <u-search
+        @search="search"
+        @blur="search"
+        :showAction="false"
+        placeholder="输入项目搜索的项目"
+        v-model="searchValue"
+      ></u-search>
     </view>
     <view class="card" v-for="(item, index) in projectList" :key="index">
       <view class="title">
         <view>{{ item.field0002 }}</view>
-        <view class="details" @click="details(item)">详情 <u-icon name="arrow-right-double" color="#fff" size="16"></u-icon> </view>
+        <view class="details" @click="details(item)"
+          >详情 <u-icon name="arrow-right-double" color="#4F7FB0" size="16"></u-icon>
+        </view>
       </view>
       <view class="content">
         <view class="left">
@@ -71,7 +79,7 @@ export default {
   methods: {
     // 解绑
     unbundle() {
-      unbundleApi({ openid: this.openid }).then((res) => {
+      unbundleApi({ openid: this.openid }).then(res => {
         if (res.code === 200) {
           this.$refs.uToast.show({
             type: 'success',
@@ -88,15 +96,15 @@ export default {
     },
     // 查询
     search() {
-      getProjectList({ name: this.searchValue }).then((res) => {
+      getProjectList({ name: this.searchValue }).then(res => {
         this.projectList = res.data
       })
     },
     // 消息列表
     getMsgList() {
-      getMsgListApi().then((res) => {
+      getMsgListApi().then(res => {
         if (res.data.length) {
-          res.data.forEach((item) => {
+          res.data.forEach(item => {
             this.msgList += item.field0160
           })
         }
@@ -122,8 +130,8 @@ export default {
   .user {
     width: 100px;
     height: 100px;
-    position: fixed;
-    top: 110px;
+    position: absolute;
+    top: 30px;
     right: 0%;
     display: flex;
     flex-direction: column;
@@ -172,7 +180,7 @@ export default {
       display: flex;
       justify-content: space-between;
       font-weight: 600;
-      color: #fff;
+      color: #4f7fb0;
     }
     .content {
       position: relative;

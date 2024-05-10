@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     click() {
-      console.log(this.agree[0])
       if (!this.agree[0]) {
         this.$refs.uToast.show({
           type: 'warning',

@@ -26,7 +26,6 @@ export default {
     async clickLogin() {
       const app = getApp()
       const res = await app.login({ phone: this.phone })
-      console.log(res)
       if (res.code !== 200) {
         this.$refs.uToast.show({
           type: 'warning',

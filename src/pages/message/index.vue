@@ -57,7 +57,6 @@ export default {
       })
     },
     toDetails({ id }) {
-      console.log(id)
       uni.navigateTo({ url: `/pages/index/details/details?id=${id}` })
     }
   },

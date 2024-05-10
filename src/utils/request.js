@@ -18,7 +18,6 @@ function handleRequest(options, resolve, reject) {
       return resolve(response.data)
     },
     fail: fail => {
-      console.log('fail', fail)
       return reject(fail)
     }
   })
