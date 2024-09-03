@@ -2,7 +2,7 @@
   <div class="page">
     <u-toast ref="uToast"></u-toast>
     <u-navbar :leftIconSize="0" bgColor="#ebf1f3" title="秀洲项目中心" :autoBack="false"> </u-navbar>
-    <img src="@/static/首页背景.jpg" class="bg" />
+    <img src="@/static/首页背景.png" class="bg" />
     <u-notice-bar color="#fff" bgColor="#1a293f" :text="msgList" mode="link" url="/pages/message/index"></u-notice-bar>
     <view class="user">
       <!-- 用户昵称 -->
@@ -79,7 +79,7 @@ export default {
   methods: {
     // 解绑
     unbundle() {
-      unbundleApi({ openid: this.openid }).then(res => {
+      unbundleApi({ openid: this.openid }).then((res) => {
         if (res.code === 200) {
           this.$refs.uToast.show({
             type: 'success',
@@ -96,15 +96,15 @@ export default {
     },
     // 查询
     search() {
-      getProjectList({ name: this.searchValue }).then(res => {
+      getProjectList({ name: this.searchValue }).then((res) => {
         this.projectList = res.data
       })
     },
     // 消息列表
     getMsgList() {
-      getMsgListApi().then(res => {
+      getMsgListApi().then((res) => {
         if (res.data.length) {
-          res.data.forEach(item => {
+          res.data.forEach((item) => {
             this.msgList += item.field0160
           })
         }
