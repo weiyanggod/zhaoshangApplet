@@ -102,13 +102,13 @@ export default {
     },
     // 消息列表
     getMsgList() {
-      // getMsgListApi().then((res) => {
-      //   if (res.data.length) {
-      //     res.data.forEach((item) => {
-      //       this.msgList += item.field0160
-      //     })
-      //   }
-      // })
+      getMsgListApi().then((res) => {
+        if (res.data.length) {
+          res.data.forEach((item) => {
+            this.msgList += item.field0160
+          })
+        }
+      })
     }
   },
   watch: {}
