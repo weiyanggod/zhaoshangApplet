@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <u-toast ref="uToast"></u-toast>
-    <u-navbar :leftIconSize="0" bgColor="#ebf1f3" title="秀洲项目中心" :autoBack="false"> </u-navbar>
+    <u-navbar :leftIconSize="0" bgColor="#ebf1f3" title="招商项目中心" :autoBack="false"> </u-navbar>
     <img src="@/static/首页背景.png" class="bg" />
     <u-notice-bar color="#fff" bgColor="#1a293f" :text="msgList" mode="link" url="/pages/message/index"></u-notice-bar>
     <view class="user">
@@ -102,13 +102,13 @@ export default {
     },
     // 消息列表
     getMsgList() {
-      getMsgListApi().then((res) => {
-        if (res.data.length) {
-          res.data.forEach((item) => {
-            this.msgList += item.field0160
-          })
-        }
-      })
+      // getMsgListApi().then((res) => {
+      //   if (res.data.length) {
+      //     res.data.forEach((item) => {
+      //       this.msgList += item.field0160
+      //     })
+      //   }
+      // })
     }
   },
   watch: {}
