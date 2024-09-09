@@ -2,7 +2,7 @@
   <div class="page">
     <u-toast ref="uToast"></u-toast>
     <u-navbar :leftIconSize="0" bgColor="#ebf1f3" title="招商项目中心" :autoBack="false"> </u-navbar>
-    <img src="@/static/首页背景.png" class="bg" />
+    <img src="@/static/首页背景.jpg" class="bg" />
     <u-notice-bar color="#fff" bgColor="#1a293f" :text="msgList" mode="link" url="/pages/message/index"></u-notice-bar>
     <view class="user">
       <!-- 用户昵称 -->
