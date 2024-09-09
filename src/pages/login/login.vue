@@ -4,7 +4,7 @@
     <img src="@/static/登录页背景.png" class="bg" lazy-load />
     <view class="text">
       <view>你好,</view>
-      <view style="margin-top: 10px">欢迎进入招商项目演示平台</view>
+      <view style="margin-top: 10px">欢迎进入秀洲项目中心</view>
     </view>
     <view class="logon-button">
       <u-button
